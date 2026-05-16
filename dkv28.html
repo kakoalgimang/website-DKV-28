@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X DKV 28 | Official Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0c11;
+            --card: #1e1b22;
+            --primary: #ff3e7f;
+            --text: #ffffff;
+            --text-dim: #aaaaaa;
+            --input: #2a2630;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        body.light-mode {
+            --bg: #f5f5f7;
+            --card: #ffffff;
+            --primary: #d6336c;
+            --text: #1d1d1f;
+            --text-dim: #6e6e73;
+            --input: #e8e8ed;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: .4s;
+            overflow-x: hidden;
+        }
+        /* HEADER */
+        header {
+            padding: 15px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 12, 17, 0.1);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .mode-toggle {
+            cursor: pointer;
+            background: var(--input);
+            padding: 8px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        /* HERO */
+        .hero {
+            padding: 120px 5% 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        /* STATS */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 10px 5% 20px;
+        }
+        .stat-card {
+            background: var(--card);
+            padding: 15px 5px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+        .stat-card h2 {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+        .stat-card p {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        /* SECTION */
+        .section-title {
+            padding: 25px 5% 10px;
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .about-box {
+            margin: 0 5% 15px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .about-box p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+        .info-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 0 5% 20px;
+        }
+        .info-detail-item {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .info-detail-item .label {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        .info-detail-item .value {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        /* SEARCH */
+        .org-section {
+            padding: 0 5% 30px;
+        }
+        .search-wrapper {
+            background: var(--card);
+            padding: 12px 18px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .search-wrapper input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            width: 100%;
+            font-size: 0.85rem;
+        }
+        .filter-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 15px;
+            scrollbar-width: none;
+        }
+        .filter-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .filter-btn {
+            padding: 8px 18px;
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        /* MEMBER GRID */
+        .member-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .member-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 24px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 6px 15px var(--shadow);
+            transition: 0.3s;
+        }
+        .member-card:hover {
+            transform: translateY(-5px);
+        }
+        /* FOTO PROFIL */
+        .avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 12px;
+            border: 3px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .member-card h4 {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .role-badge {
+            font-size: 0.65rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: rgba(255, 62, 127, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        /* GALLERY */
+        .gallery-grid {
+            margin: 0 5% 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .gallery-item {
+            border-radius: 18px;
+            overflow: hidden;
+            background: var(--card);
+            aspect-ratio: 1/1;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* SLIDER */
+        .slider-wrapper {
+            margin: 0 5% 40px;
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+        .slides {
+            display: flex;
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .slide {
+            min-width: 100%;
+            cursor: pointer;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* CSS TAMBAHAN UNTUK POP-UP SYSTEM (TIDAK MERUBAH STYLE ASLI) */
+        .image-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .image-popup-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .image-popup-overlay img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        .image-popup-overlay.active img {
+            transform: scale(1);
+        }
+        .image-popup-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* NAVIGASI SLIDER (TAMBAHAN) */
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        .slider-nav:hover {
+            background: var(--primary);
+        }
+        .slider-nav.left {
+            left: 10px;
+        }
+        .slider-nav.right {
+            right: 10px;
+        }
+
+        /* ======================================================= */
+        /* CSS POPUP MEDSOS X DKV & FLOATING BUTTON (GABUNGAN BARU) */
+        /* ======================================================= */
+        
+        /* Tombol Mengambang (Floating Action Button) */
+        .medsos-float-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            outline: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 999;
+            transition: 0.3s ease;
+        }
+        .medsos-float-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 62, 127, 0.4);
+        }
+
+        /* Background Overlay Medsos Popup */
+        .medsos-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 3000; /* Di atas preview gambar kelas */
+        }
+        .medsos-popup-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Kotak Konten Popup Medsos */
+        .medsos-popup-box {
+            background: #ffffff;
+            width: 340px;
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        .medsos-popup-overlay.active .medsos-popup-box {
+            transform: scale(1);
+        }
+
+        /* Header Popup Medsos */
+        .medsos-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .medsos-popup-header h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            text-transform: lowercase; /* Sesuai request: medsos X dkv */
+        }
+        .medsos-close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .medsos-close-btn:hover {
+            color: #333;
+        }
+
+        /* Container Opsi Medsos */
+        .medsos-options {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 5px 0;
+        }
+        .medsos-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #555555;
+            transition: transform 0.2s;
+        }
+        .medsos-item:hover {
+            transform: translateY(-3px);
+        }
+        .medsos-icon-wrapper {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            background: #f5f5f7;
+            transition: background 0.2s;
+        }
+
+        /* Hover warna khusus Instagram */
+        .medsos-instagram:hover .medsos-icon-wrapper {
+            background: #e1306c;
+        }
+        /* Hover warna khusus NGL */
+        .medsos-ngl:hover .medsos-icon-wrapper {
+            background: #ff4500;
+        }
+
+        /* Mengubah warna internal icon SVG saat di-hover */
+        .medsos-item:hover svg {
+            fill: #ffffff;
+        }
+        .medsos-item span {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <div style="font-size:1.6rem;">🎨</div>
+        <h4 style="font-size:0.85rem;">
+            X DKV 28
+            <br>
+            <span style="font-weight:400;opacity:0.6;font-size:0.7rem;">
+                SMKN 34 jakarta
+            </span>
+        </h4>
+    </div>
+    <div class="mode-toggle" onclick="document.body.classList.toggle('light-mode')">
+        🌙
+    </div>
+</header>
+
+<section class="hero">
+    <h1>WELCOME</h1>
+    <p style="font-size:0.8rem;color:var(--text-dim);">
+        Creative • Innovative • Solidarity
+    </p>
+</section>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h2>34</h2>
+        <p>Siswa</p>
+    </div>
+    <div class="stat-card">
+        <h2>25+</h2>
+        <p>Karya</p>
+    </div>
+    <div class="stat-card">
+        <h2>7+</h2>
+        <p>Prestasi</p>
+    </div>
+</div>
+
+<div class="section-title">Profil Kelas</div>
+<div class="about-box">
+    <p>
+        Kami adalah keluarga besar X DKV Angkatan 28.
+        Wadah bagi para kreator muda untuk mengeksplorasi dunia desain,
+        fotografi, dan seni visual.
+    </p>
+</div>
+
+<div class="info-detail-grid">
+    <div class="info-detail-item">
+        <span class="label">🏫 Sekolah</span>
+        <span class="value">SMKN 34 JAKARTA</span>
+    </div>
+    <div class="info-detail-item">
+        <span class="label">👩‍🏫 Wali Kelas</span>
+        <span class="value">Faradillah Khumairah S.Pd</span>
+    </div>
+    <div class="info-detail-item">
+        <span class="label">📍 Alamat</span>
+        <span class="value">. Kramat Raya No. 93, Kelurahan Paseban, Kecamatan Senen, Kota Jakarta Pusat, DKI Jakarta, 10440.</span>
+    </div>
+    <div class="info-detail-item">
+        <span class="label">📅 Tahun Ajaran</span>
+        <span class="value">2025 - 2028</span>
+    </div>
+</div>
+
+<div class="section-title">keluarga besar DKV angkatan 28</div>
+<div class="org-section">
+    <div class="search-wrapper">
+        <span>🔍</span>
+        <input type="text" id="searchInput" placeholder="Cari nama teman..." onkeyup="searchMember()">
+    </div>
+    <div class="filter-scroll">
+        <button class="filter-btn active" onclick="filterMember('all', event)">Semua</button>
+        <button class="filter-btn" onclick="filterMember('Ketua', event)">Ketua</button>
+        <button class="filter-btn" onclick="filterMember('Wakil', event)">Wakil</button>
+        <button class="filter-btn" onclick="filterMember('Sekretaris', event)">Sekretaris</button>
+        <button class="filter-btn" onclick="filterMember('Bendahara', event)">Bendahara</button>
+    </div>
+    <div class="member-grid" id="memberGrid">
+        <div class="member-card" data-role="Ketua">
+            <div class="avatar"><img src="quin.jpeg" alt="queen"></div>
+            <h4>NI WAYAN QUEENELLA WARDHANA</h4>
+            <span class="role-badge">Ketua Kelas</span>
+        </div>
+        <div class="member-card" data-role="Wakil">
+            <div class="avatar"><img src="billy.jpeg" alt="Shelia Nur Zakiah"></div>
+            <h4>BILLY SATRIATAMA</h4>
+            <span class="role-badge">Wakil Ketua</span>
+        </div>
+        <div class="member-card" data-role="Sekretaris">
+            <div class="avatar"><img src="rania.jpeg" alt="Ervyna Destianti"></div>
+            <h4>ANGGUN RANIA SHAFIRA</h4>
+            <span class="role-badge">Sekretaris</span>
+        </div>
+        <div class="member-card" data-role="Sekretaris">
+            <div class="avatar"><img src="ripan.jpeg" alt="Ervyna Destianti"></div>
+            <h4>MUHAMAD RIPHAN AULIA</h4>
+            <span class="role-badge">Sekretaris</span>
+        </div>
+        <div class="member-card" data-role="Bendahara">
+            <div class="avatar"><img src="juhar.jpeg" alt="Arini Nur Solehah"></div>
+            <h4>JUHAR RIFHAT</h4>
+            <span class="role-badge">Bendahara</span>
+        </div>
+        <div class="member-card" data-role="Bendahara">
+            <div class="avatar"><img src="laura.jpeg" alt="Arini Nur Solehah"></div>
+            <h4>HERDITA LAURA</h4>
+            <span class="role-badge">Bendahara</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="afnan.jpeg" alt="Adly Alfarizi"></div>
+            <h4>AFNAN NISMARA SAADAN</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="kausar.jpeg" alt="Adly Alfarizi"></div>
+            <h4>AHMAD KAUSAR KHURIYADI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="alisya.jpeg" alt="Adly Alfarizi"></div>
+            <h4>ALISYA CHANTIKA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="bunga.jpeg" alt="Adly Alfarizi"></div>
+            <h4>BUNGA NAURAH MUSTOPA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="clara.jpeg" alt="Adly Alfarizi"></div>
+            <h4>CLARA PUTRI DEVRIZAL</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="denis.jpeg" alt="Adly Alfarizi"></div>
+            <h4>DENNIS RAFAEL</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="elsy.jpeg" alt="Adly Alfarizi"></div>
+            <h4>ELSY NUR RAHMAH REZKYAH</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="fenny.jpeg" alt="Adly Alfarizi"></div>
+            <h4>FENNY NUR'AFNI ANGGRAENI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="ismi.jpeg" alt="Adly Alfarizi"></div>
+            <h4>ISMI NURSAFITRI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="jalal.jpeg" alt="Adly Alfarizi"></div>
+            <h4>JALALLUDIN AL RUMMI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="julio.jpeg" alt="Adly Alfarizi"></div>
+            <h4>JULIO MAHESA MANDALA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="kayla.jpeg" alt="Adly Alfarizi"></div>
+            <h4>KAYLA DIYAH ULHAQ</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="khanza.jpeg" alt="Adly Alfarizi"></div>
+            <h4>KHANZA THANISA NANDINA WARMAN</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="mahendra.jpeg" alt="Adly Alfarizi"></div>
+            <h4>MAHENDRA PUTRA SETIAWAN</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="zaki.jpeg" alt="Adly Alfarizi"></div>
+            <h4>MOCHAMAD IQBAL MUZZAKI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="kelvin.jpeg" alt="Adly Alfarizi"></div>
+            <h4>MUHAMMAD KELVIN</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="rafi.jpeg" alt="Adly Alfarizi"></div>
+            <h4>MUHAMMAD RAAFI MAULANA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="nadila.jpeg" alt="Adly Alfarizi"></div>
+            <h4>NADILA PUTRI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="nike.jpeg" alt="Adly Alfarizi"></div>
+            <h4>NIKE LARAS SATI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="anaya.jpeg" alt="Adly Alfarizi"></div>
+            <h4>PUTRI ANAYA RAMADHANI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="rahel.jpeg" alt="Adly Alfarizi"></div>
+            <h4>RAHEL RAHAYU</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="rian.jpeg" alt="Adly Alfarizi"></div>
+            <h4>RIAN EKKY PRADIPTA JUNIOR</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="safanah.jpeg" alt="Adly Alfarizi"></div>
+            <h4>SAFFANAH KAYSA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="salman.jpeg" alt="Adly Alfarizi"></div>
+            <h4>SALMAN ALFARISI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="tarisa.jpeg" alt="Adly Alfarizi"></div>
+            <h4>TARISA KAIA MAHARANI</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="zahra.jpeg" alt="Adly Alfarizi"></div>
+            <h4>ZAHRA LAYLA KHUSNA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="ayu.jpeg" alt="Adly Alfarizi"></div>
+            <h4>ZAHROTU AYU SYITA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+        <div class="member-card" data-role="Anggota">
+            <div class="avatar"><img src="aurel.jpeg" alt="Adly Alfarizi"></div>
+            <h4>ZALFA AURELIA</h4>
+            <span class="role-badge">Anggota</span>
+        </div>
+    </div>
+</div>
+
+<div class="section-title">Karya Kreatif</div>
+<div class="gallery-grid">
+    <div class="gallery-item">
+        <img src="karya1.jpeg">
+    </div>
+    <div class="gallery-item">
+        <img src="karya2.jpeg">
+    </div>
+</div>
+
+<div class="section-title">Kenangan</div>
+<div class="slider-wrapper">
+    <div class="slides" id="slides">
+        <div class="slide"><img src="kenangan1.jpeg"></div>
+        <div class="slide"><img src="kenangan2.jpeg"></div>
+        <div class="slide"><img src="kenangan3.jpeg"></div>
+        <div class="slide"><img src="kenangan4.jpeg"></div>
+        <div class="slide"><img src="kenangan5.jpeg"></div>
+    </div>
+    <div class="slider-nav left" onclick="prevSlide()">❮</div>
+    <div class="slider-nav right" onclick="nextSlide()">❯</div>
+</div>
+
+<footer>
+    <p>© 2026 X DKV 28 • Creative Education</p>
+</footer>
+
+<div class="image-popup-overlay" id="imagePopup">
+    <span class="image-popup-close" id="closePopupBtn">&times;</span>
+    <img src="" id="popupTargetImg" alt="Popup Image">
+</div>
+
+<button class="medsos-float-btn" id="openMedsosBtn">
+    <span>🌐</span> Medsos
+</button>
+
+<div class="medsos-popup-overlay" id="medsosPopup">
+    <div class="medsos-popup-box">
+        <div class="medsos-popup-header">
+            <h2>medsos X dkv</h2>
+            <button class="medsos-close-btn" id="closeMedsosBtn">&times;</button>
+        </div>
+        
+        <div class="medsos-options">
+            <a href="https://www.instagram.com/visual.dreamers_dkv?igsh=Z2FnNWV2d2d0aWd4" target="_blank" class="medsos-item medsos-instagram">
+                <div class="medsos-icon-wrapper">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#333333">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </div>
+                <span>Instagram</span>
+            </a>
+
+            <a href="https://forms.gle/FXmL6n3ypVLcQDFs8" target="_blank" class="medsos-item medsos-ngl">
+                <div class="medsos-icon-wrapper">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#333333">
+                        <path d="M12 2c5.523 0 10 3.978 10 8.889 0 2.63-1.284 5.003-3.342 6.649-.125.101-.198.252-.198.412l.002 2.76c.001.442-.444.747-.852.576l-3.32-1.39a.512.512 0 0 0-.342-.016c-.632.182-1.298.281-1.948.281-5.523 0-10-3.978-10-8.889S6.477 2 12 2zm0 2c-4.418 0-8 3.084-8 6.889 0 3.805 3.582 6.889 8 6.889.704 0 1.42-.084 2.107-.272a1.512 1.512 0 0 1 1.01.047l2.096.878-.001-1.43c0-.582.268-1.135.731-1.507 1.76-1.417 2.771-3.414 2.771-5.607C20 7.084 16.418 4 12 4z"/>
+                    </svg>
+                </div>
+                <span>NGL Link</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function searchMember() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.querySelectorAll('.member-card');
+        cards.forEach(card => {
+            let name = card.querySelector('h4').innerText.toLowerCase();
+            card.classList.toggle('hidden', !name.includes(input));
+        });
+    }
+
+    function filterMember(role, event) {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        const cards = document.querySelectorAll('.member-card');
+        cards.forEach(card => {
+            if (role === 'all' || card.getAttribute('data-role') === role) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    }
+
+    const slides = document.getElementById('slides');
+    let index = 0;
+    setInterval(() => {
+        index = (index + 1) % document.querySelectorAll('.slide').length;
+        slides.style.transform = `translateX(-${index * 100}%)`;
+    }, 4000);
+
+    /* LOGIKA JAVASCRIPT POP-UP PREVIEW GAMBAR (ASLI BAWAANMU) */
+    const popup = document.getElementById('imagePopup');
+    const popupImg = document.getElementById('popupTargetImg');
+    const closePopupBtn = document.getElementById('closePopupBtn');
+
+    document.querySelectorAll('.avatar img, .gallery-item img, .slide img').forEach(img => {
+        img.addEventListener('click', () => {
+            popupImg.src = img.src;
+            popup.classList.add('active');
+        });
+    });
+
+    closePopupBtn.addEventListener('click', () => {
+        popup.classList.remove('active');
+    });
+
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.classList.remove('active');
+        }
+    });
+
+    function nextSlide() {
+        const totalSlides = document.querySelectorAll('.slide').length;
+        index = (index + 1) % totalSlides;
+        slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function prevSlide() {
+        const totalSlides = document.querySelectorAll('.slide').length;
+        index = (index - 1 + totalSlides) % totalSlides;
+        slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    /* ======================================================= */
+    /* LOGIKA JAVASCRIPT POPUP MEDSOS (BARU)                   */
+    /* ======================================================= */
+    const openMedsosBtn = document.getElementById('openMedsosBtn');
+    const closeMedsosBtn = document.getElementById('closeMedsosBtn');
+    const medsosPopup = document.getElementById('medsosPopup');
+
+    // Buka Modal Medsos
+    openMedsosBtn.addEventListener('click', () => {
+        medsosPopup.classList.add('active');
+    });
+
+    // Tutup Modal via Tombol Silang
+    closeMedsosBtn.addEventListener('click', () => {
+        medsosPopup.classList.remove('active');
+    });
+
+    // Tutup Modal saat area luar diklik
+    medsosPopup.addEventListener('click', (e) => {
+        if (e.target === medsosPopup) {
+            medsosPopup.classList.remove('active');
+        }
+    });
+</script>
+</body>
+</html>
